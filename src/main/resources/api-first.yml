@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  description: Imatia Orders API
+  version: 1.0.0
+  title: Imatia Orders API
+  contact:
+    email: pablomourefr76@gmail.com
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /order/tracking/:
+    post:
+      summary: Processing order tracking
+      operationId: saveOrderTracking
+      requestBody:
+        description: Ordertracking
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/orderTracking"
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/orderTrackingResult"
+        '204':
+          description: No content
+          content: { }
+        '401':
+          description: Unauthorized
+          content: { }
+        '403':
+          description: Forbidden
+          content: { }
+        '404':
+          description: Not Found
+          content: { }
+        '500':
+          description: Internal server error
+          content: { }
+
+components:
+  schemas:
+    orderTracking:
+      type: object
+      description: Order tracking
+      properties:
+        orderId:
+          type: number
+          description: Unique identifier order
+        trackingStatusId:
+          type: integer
+          description: Status of tracking
+        changeStatusDate:
+          type: string
+          format: date-time
+          description: Date of status change
+
+    orderTrackingResult:
+      type: object
+      description: Order tracking
+      properties:
+        orderId:
+          type: number
+          description: Unique identifier order
+        isCorrect:
+          type: boolean
+          description: Verification

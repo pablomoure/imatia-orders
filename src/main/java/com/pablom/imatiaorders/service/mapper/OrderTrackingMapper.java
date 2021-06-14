@@ -1,12 +1,20 @@
 package com.pablom.imatiaorders.service.mapper;
 
+import com.pablom.imatiaorders.controller.dto.OrderTrackingDto;
 import com.pablom.imatiaorders.repository.entity.OrderTrackingEntity;
-import com.pablom.imatiaorders.service.model.OrderTracking;
-import org.mapstruct.Mapper;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@Mapper(componentModel = "spring")
-public interface OrderTrackingMapper {
-    OrderTrackingEntity asOrderTrackingEntity(OrderTracking orderTracking);
+import java.time.Instant;
 
-    OrderTracking asOrderTracking(OrderTrackingEntity orderTrackingEntity);
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class OrderTrackingMapper {
+    public static OrderTrackingEntity asOrderTrackingEntity(final OrderTrackingDto orderTracking) {
+        return OrderTrackingEntity.builder()
+                .orderId(orderTracking.getOrderId())
+                .trackingStatusId(orderTracking.getTrackingStatusId())
+                .changeStatusDate(orderTracking.getChangeStatusDate().toInstant())
+                .savedDate(Instant.now())
+                .build();
+    }
 }

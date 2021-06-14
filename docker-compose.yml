@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017
+    expose:
+      - 27017
+    networks:
+      imatia-orders:
+
+  imatia-orders:
+    image: imatia-orders
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    ports:
+      - 8080:8080
+    environment:
+      - "JAVA_OPTS=-Dspring.profiles.active=standalone"
+    depends_on:
+      - mongo
+    networks:
+      imatia-orders:
+
+networks:
+  imatia-orders:
+    driver: bridge
